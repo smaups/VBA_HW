@@ -1,0 +1,53 @@
+Sub StockDataEasy():
+
+For Each ws In Worksheets
+
+'Variable for File Name
+    Dim WorksheetName As String
+'Ticker Variable
+    Dim TickerName As String
+    
+ 'Volume Variable
+    Dim Volume As LongLong
+    Volume = 0
+    
+'Summary Variable
+    Summary = 2
+
+'Name Ticker And Volume Cells
+    ws.Cells(1, 10).Value = "Ticker Name"
+    ws.Cells(1, 11).Value = "Volume"
+    
+ '   MsgBox (Cells(1, 10).Value)
+ 'See if WorkSheetName Works
+    WorksheetName = ws.Name
+    'MsgBox WorksheetName - created infinite loop
+       
+'Find Last Row
+    LastRow = ws.Range("A" & Rows.Count).End(xlUp).Row
+     
+
+    'Iterate Through Data
+        For i = 2 To LastRow
+        
+            'Search for Tickers
+                If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+            'Assign Value to Variables
+                    TickerName = ws.Cells(i, 1).Value
+                    Volume = Volume + ws.Cells(i, 7).Value
+                    Summary = Summary + 1
+                Else:
+                    Volume = Volume + ws.Cells(i, 7).Value
+                    TickerName = ws.Cells(i, 1).Value
+                End If
+                ws.Range("J" & Summary).Value = TickerName
+                ws.Range("K" & Summary).Value = Volume
+         
+                
+        Next i
+                Volume = 0
+      
+                
+Next ws
+
+End Sub
